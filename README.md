@@ -1,2 +1,2 @@
 # news-extension
-Displays news from The New York Times upon opening a new tab.
+Displays top headlines from various news sources upon opening a new tab.
