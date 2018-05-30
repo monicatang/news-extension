@@ -1,0 +1,15 @@
+{
+    "manifest_version": 2,
+    "name": "Breaking News",
+    "description": "Shows breaking news from The New York Times",
+    "version": "1",
+    "author": "Monica Tang",
+    "browser_action": {
+
+        "default_title": "Breaking News"
+    },
+    "chrome_url_overrides" : {
+      "newtab": "newtab.html"
+    },
+ "permissions": ["activeTab"]
+}
