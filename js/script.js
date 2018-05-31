@@ -1,9 +1,27 @@
+var apiKey = "d418a65c0c38453da8d0ee0eae5467e0";
 
 const url = 'https://newsapi.org/v2/top-headlines?' +
           'country=us&' +
-          'apiKey=d418a65c0c38453da8d0ee0eae5467e0'
+          'apiKey=' + apiKey
 
-var counter = 0;
+const src = "https://newsapi.org/v2/sources?apiKey=" + apiKey;
+
+const search = "https://newsapi.org/v2/everything?q="
+
+$('#search').click(function(){
+	var input = document.getElementById('search-bar').value
+    fetch(search + input + "&apiKey=" + apiKey, {
+	method: 'GET'
+	})
+	.then((resp) => resp.json())
+	.then(function(data){
+		console.log("working")
+		
+	})
+	.catch(function(error){
+		console.log(error);
+	});
+});
 
 $(document).ready(function(){
 
@@ -12,6 +30,7 @@ $(document).ready(function(){
 	})
 	.then((resp) => resp.json())
 	.then(function(data){
+		var counter = 0;
 		for (var i = 0; i < data.articles.length; i++) {
 			var newsfeed = document.getElementsByClassName("row");
 			var curr = data.articles[i];
@@ -47,6 +66,7 @@ $(document).ready(function(){
 	.catch(function(error){
 		console.log(error);
 	});
+
 
 });
 
