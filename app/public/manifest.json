@@ -1,0 +1,17 @@
+
+{
+    "manifest_version": 2,
+    "name": "Breaking News",
+    "description": "Shows breaking news from various news sources",
+    "version": "1",
+    "author": "Monica Tang",
+    "browser_action": {
+
+        "default_title": "Breaking News",
+        "default_popup": "index.html"
+    },
+    "chrome_url_overrides" : {
+      "newtab": "./index.html"
+    },
+    "permissions": ["activeTab"]
+}

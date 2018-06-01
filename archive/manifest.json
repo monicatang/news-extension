@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Breaking News",
-    "description": "Shows breaking news from The New York Times",
+    "description": "Shows breaking news from various news sources",
     "version": "1",
     "author": "Monica Tang",
     "browser_action": {
