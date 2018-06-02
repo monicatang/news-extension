@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import {  InputGroup, 
-  InputGroupAddon, 
-  InputGroupText, 
+import {  InputGroup,  
   Input, 
+  Alert,
   Card, 
   CardImg, 
   CardText, 
   CardBody,
-  CardTitle, 
-  CardSubtitle, 
   Button, 
   Container, 
   Row, 
@@ -17,19 +14,16 @@ import {  InputGroup,
 
 var apiKey = "d418a65c0c38453da8d0ee0eae5467e0";
 
-const url = 'https://newsapi.org/v2/top-headlines?' +
-          'country=us&' +
-          'apiKey=' + apiKey;
-
 
 
 const NewsCard = (props) => {
   return (
     <Col xs="6" sm="4">
-      <a href={props.url}>
+      <a href={props.link}>
         <Card className="card-gallery">
-          <CardImg className="gallery-img" top width="100%" src={props.img} alt="Card image cap" />
-          <CardBody>
+          <div className="text-block">{props.source}</div>
+          <CardImg className="gallery-img" top width="100%" src={props.image} alt="Card image cap" />
+          <CardBody className="card-body">
             <CardText className="card-text">{props.headline}</CardText>
           </CardBody>
         </Card>
@@ -38,47 +32,94 @@ const NewsCard = (props) => {
   );
 };
 
+
+
 class App extends Component {
 
   constructor(){
     super();
-    this.state = {top_headlines: [1]};
+    this.state = {displayed_news: [],
+      visible: false,
+      keywords: ""
+    };
+
+    this.toggleVisible = this.toggleVisible.bind(this);
+    this.getData = this.getData.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.returnSearch = this.returnSearch.bind(this);
   }
 
-  getData() {
+  toggleVisible() {
+    this.setState({ visible: !this.state.visible });
+  }
+
+  openConfirm() {
+    return <Alert color="success" isOpen={this.state.visible} toggle={this.toggleVisible}>
+                 Followed {this.state.keywords}!
+           </Alert>}
+
+  //retrieves news from api
+  getData(url) {
     fetch(url, {
         method: 'GET'
       })
       .then((resp) => resp.json())
-      .then((json) => this.setState({top_headlines: json.articles}))
+      .then((json) => this.setState({displayed_news: json.articles}))
       .catch(function(error){
         console.log(error);
       });
   }
 
+  //checks whether the article has an image
   hasImage(article) {
     return Boolean(article.urlToImage);
   }
 
+  //forms card using info from article
   extractInfo(article, index) {
     if(index < 9){
-      return <NewsCard img={article.urlToImage} headline={article.title} url={article.url}/>;
+      return <NewsCard image={article.urlToImage} headline={article.title} link={article.url} source={article.source.name}/>;
     } else {
       return;
     }
     
   }
 
-  componentDidMount() {
-    this.getData();
+  handleSearchChange(e) {
+   this.setState({keywords: e.target.value});
   }
 
+  returnSearch(){
+    if(this.state.keywords){
+      this.getData("https://newsapi.org/v2/everything?q=" + encodeURI(this.state.keywords) + "&apiKey=" + apiKey);
+    } else {
+      return;
+    }
+
+  }
+
+  componentDidMount() {
+    let headlines_url = 'https://newsapi.org/v2/top-headlines?' +
+          'country=us&' +
+          'apiKey=' + apiKey;
+    this.getData(headlines_url);
+  }
+
+
+
   render() {
-    if(this.state.top_headlines){
+    if(this.state.displayed_news){
       return (
         <Container>
+            
+           {this.state.visible && this.openConfirm()}
           <h1 className="title"> Top Headlines </h1>
-          <Row>{this.state.top_headlines.filter(this.hasImage).map(this.extractInfo)}</Row>
+          <InputGroup className = "search-bar">
+            <Input className="search-input" value={this.state.keywords} onChange={this.handleSearchChange} placeholder="Enter keywords to search for or follow a particular story" />
+            <Button className="search-button" color="secondary" onClick={this.returnSearch}>Search</Button>
+            <Button outline color="secondary" onClick={this.toggleVisible}>Follow</Button>
+          </InputGroup>
+          <Row>{this.state.displayed_news.filter(this.hasImage).map(this.extractInfo)}</Row>
         </Container>
       );
     }

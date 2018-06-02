@@ -8,10 +8,11 @@ a {
 }
 
 .card-gallery{
-  height:300px;
-  margin-bottom:2rem;
+  height:301px;
+  margin-bottom:1.5rem;
   border-style: none !important;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .card-gallery:hover{
@@ -21,8 +22,20 @@ a {
 .gallery-img{
   object-fit: cover;
   height:200px;
-  width: 100px;
 
+
+}
+
+.text-block {
+  position: absolute;
+  top:0px;
+  left: 0px;
+  background: rgb(0, 0, 0); /* Fall-back for browsers that don't
+                                    support rgba */
+  background: rgba(0, 0, 0, .7);
+  color: white;
+  padding: 10px;
+  font-size:14px;
 }
 
 .title{
@@ -32,7 +45,27 @@ a {
 }
 
 .card-text{
+  
+}
+
+.card-body{
+  overflow: hidden;
+  max-height:84px;
+  text-overflow: ellipsis;
   font-size: 14px;
   font-weight: 500;
   line-height: 21px;
+}
+
+.search-bar{
+  margin-bottom:2rem;
+
+}
+
+.search-input{
+  margin-right:20px;
+}
+
+.search-button{
+  margin-right:20px;
 }
