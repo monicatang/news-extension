@@ -41,8 +41,6 @@ class App extends Component {
     case 'Following':
       page = <Following />;
       break
-    default:
-      page = <Headlines />;
   }
       return (
         <div>
