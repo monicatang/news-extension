@@ -11,22 +11,24 @@ import $ from 'jquery';
 var apiKey = "d418a65c0c38453da8d0ee0eae5467e0";
 var headlines_url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=';
 
-
 class Headlines extends Component {
 
   constructor(){
     super();
     this.state = {displayed_news: [],
       visible: false,
-      keywords: ""
+      keywords: "",
+      dropdownOpen: false
     };
 
     this.toggleVisible = this.toggleVisible.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
     this.getData = this.getData.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.returnSearch = this.returnSearch.bind(this);
     this.follow = this.follow.bind(this);
     this.getCategoryData = this.getCategoryData.bind(this);
+    this.renderCard = this.renderCard.bind(this);
   }
 
   toggleVisible() {
@@ -63,6 +65,12 @@ class Headlines extends Component {
     }
   }
 
+  toggleDropdown() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
   //retrieves news from api
   getData(url) {
     fetch(url, {
@@ -76,6 +84,10 @@ class Headlines extends Component {
       });
   }
 
+  renderCard(data){
+    return data.filter(this.hasImage).map(this.extractInfo);
+  }
+
   //checks whether the article has an image
   hasImage(article) {
     return Boolean(article.urlToImage);
@@ -83,12 +95,7 @@ class Headlines extends Component {
 
   //forms card using info from article
   extractInfo(article, index) {
-    if(index < 21){
-      return <NewsCard image={article.urlToImage} headline={article.title} link={article.url} source={article.source.name} date = {article.publishedAt}/>;
-    } else {
-      return;
-    }
-    
+    return <NewsCard image={article.urlToImage} headline={article.title} link={article.url} source={article.source.name} date = {article.publishedAt}/>;
   }
 
   handleSearchChange(e) {
@@ -105,15 +112,17 @@ class Headlines extends Component {
   }
 
   getCategoryData(e, category){
-    this.getData(headlines_url + apiKey + '&category=' + category);
+    let url = headlines_url + apiKey + '&category=' + category;
+    this.getData(url);
   }
 
   componentDidMount() {
     let url =  headlines_url + apiKey;
     this.getData(url);
+
   }
 
-
+  
 
   render() {
     if(this.state.displayed_news){
@@ -128,7 +137,7 @@ class Headlines extends Component {
             <Button className="search-button" color="secondary" onClick={this.returnSearch}>Search</Button>
             <Button outline color="secondary" onClick={(event) => {this.toggleVisible(); this.follow();}}>Follow</Button>
           </InputGroup>
-          <div >
+          <div>
             <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "general")} >General</Button>
             <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "business")}>Business</Button>
             <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "entertainment")}>Entertainment</Button>
@@ -136,8 +145,10 @@ class Headlines extends Component {
             <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "science")}>Science</Button>
             <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "sports")}>Sports</Button>
             <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "technology")}>Technology</Button>
+            
           </div>
-          <Row>{this.state.displayed_news.filter(this.hasImage).map(this.extractInfo)}</Row>
+          
+          <Row>{this.renderCard(this.state.displayed_news)}</Row>
         </div>
 
       );

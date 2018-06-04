@@ -14,7 +14,7 @@ class Following extends Component {
   constructor(props){
     super(props);
     this.state = {followed_news: [],
-      keywords: ""
+      keywords: "",
     };
 
     this.getNewsfeed = this.getNewsfeed.bind(this);
@@ -24,7 +24,6 @@ class Following extends Component {
     this.showKeywords = this.showKeywords.bind(this);
 
   }
-
   //retrieves followed news from api
   getNewsfeed() {
 	  	let followed_stories = JSON.parse(localStorage.getItem("keywords"));
@@ -76,9 +75,11 @@ class Following extends Component {
   		contents.push(<KeywordBubble term ={terms[i]}/>);
   	}
   	return contents;
+  	
 
  
   }
+
   componentDidMount() {
   	Promise.all(this.getNewsfeed())
   	.then(data => this.convertArticles(data))
@@ -88,7 +89,7 @@ class Following extends Component {
 
   render() {
   	
-    if(this.state.followed_news != []){
+    if(this.state.followed_news !== []){
     	console.log(this.state.followed_news);
 
       return (

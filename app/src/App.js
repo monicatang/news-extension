@@ -14,7 +14,6 @@ import {
   NavLink,
   } from 'reactstrap';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
-var Infinite = require('react-infinite');
 
 class App extends Component {
   constructor(props) {
