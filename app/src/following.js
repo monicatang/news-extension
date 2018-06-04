@@ -31,7 +31,7 @@ class Following extends Component {
 	  	if (followed_stories){
 	  		let articles = [];
 	  		for (var i=0; i<followed_stories.length; i++){
-		  		let url = "https://newsapi.org/v2/everything?q=" + encodeURI(followed_stories[i]) + "&apiKey=" + apiKey + "&sortBy=popularity";
+		  		let url = "https://newsapi.org/v2/everything?q=" + encodeURI(followed_stories[i]) + "&apiKey=" + apiKey + "&sortBy=publishedAt";
 		  		let req = $.get(url);
 		  		articles.push(req);
 	  		}

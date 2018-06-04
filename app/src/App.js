@@ -13,7 +13,7 @@ import {
   NavItem,
   NavLink,
   } from 'reactstrap';
-  
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -41,6 +41,8 @@ class App extends Component {
     case 'Following':
       page = <Following />;
       break
+    default:
+      page = <Headlines />;
   }
       return (
         <div>
