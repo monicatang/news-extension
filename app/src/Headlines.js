@@ -17,12 +17,11 @@ class Headlines extends Component {
     super();
     this.state = {displayed_news: [],
       visible: false,
-      keywords: "",
-      dropdownOpen: false
+      keywords: ""
     };
 
     this.toggleVisible = this.toggleVisible.bind(this);
-    this.toggleDropdown = this.toggleDropdown.bind(this);
+    
     this.getData = this.getData.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.returnSearch = this.returnSearch.bind(this);
@@ -65,11 +64,7 @@ class Headlines extends Component {
     }
   }
 
-  toggleDropdown() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
-  }
+  
 
   //retrieves news from api
   getData(url) {

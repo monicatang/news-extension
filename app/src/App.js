@@ -13,15 +13,15 @@ import {
   NavItem,
   NavLink,
   } from 'reactstrap';
-import { BrowserRouter as Router, Route} from 'react-router-dom';
-
+  
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      page: 'Headlines'
     };
   }
 
@@ -31,7 +31,17 @@ class App extends Component {
     });
   }
 
+
   render() {
+    let page = null;
+    switch (this.state.page) {
+    case 'Headlines':
+      page = <Headlines />;
+      break
+    case 'Following':
+      page = <Following />;
+      break
+  }
       return (
         <div>
         <Navbar color="light" light expand="md">
@@ -40,23 +50,17 @@ class App extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/">Headlines</NavLink>
+                <NavLink onClick={(e) => this.setState({page: 'Headlines'})}>Headlines</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/following">Following</NavLink>
+                <NavLink onClick={(e) => this.setState({page: 'Following'})}>Following</NavLink>
               </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
           <Container>
-            
+          {page}
           
-          <Router>
-            <div>
-              <Route exact path="/" component={Headlines}/>
-              <Route path="/following" component={Following}/>
-            </div>
-          </Router>
           </Container>
         </div>
 
