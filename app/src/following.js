@@ -1,37 +1,13 @@
 
-import { 
-  Alert,
-  Card, 
-  CardImg, 
-  CardText, 
-  CardBody,
-  CardFooter,
-  Button, 
-  Row, 
-  Col } from 'reactstrap';
+import { Row } from 'reactstrap';
+import KeywordBubble from './KeywordBubble.js'
 import React, { Component } from 'react';
+import NewsCard from './NewsCard.js';
 import './App.css';
 import $ from 'jquery'; 
 
 var apiKey = "d418a65c0c38453da8d0ee0eae5467e0";
 
-function NewsCard(props){
-  return (
-    <Col xs="6" sm="4">
-      <a href={props.link}>
-        <Card className="card-gallery">
-          <div className="text-block">{props.source}</div>
-          <CardImg className="gallery-img" top width="100%" src={props.image} alt="Card image cap" />
-           <CardFooter className="card-date">{props.date.slice(0, 10)}</CardFooter>
-          <CardBody className="card-body">
-            <CardText className="card-text">{props.headline} </CardText>
-          </CardBody>
-         
-        </Card>
-      </a>
-    </Col>
-  );
-};
 
 class Following extends Component {
 
@@ -45,6 +21,7 @@ class Following extends Component {
     this.containsImage = this.containsImage.bind(this);
     this.returnResults = this.returnResults.bind(this);
     this.convertArticles = this.convertArticles.bind(this);
+    this.showKeywords = this.showKeywords.bind(this);
 
   }
 
@@ -88,6 +65,20 @@ class Following extends Component {
   	return articles;
   }
 
+  showKeywords(){
+  	let terms = [];
+  	let contents = [];
+  	let existing_keywords = localStorage.getItem('keywords');
+  	if(existing_keywords != null){
+    	terms = JSON.parse(existing_keywords);
+  	}
+  	for(var i= 0; i<terms.length; i++){
+  		contents.push(<KeywordBubble term ={terms[i]}/>);
+  	}
+  	return contents;
+
+ 
+  }
   componentDidMount() {
   	Promise.all(this.getNewsfeed())
   	.then(data => this.convertArticles(data))
@@ -103,6 +94,7 @@ class Following extends Component {
       return (
         <div>
           <h1 className="title"> Followed Stories </h1>
+          <Row>{this.showKeywords()}</Row>
           <Row>{this.state.followed_news.filter(this.containsImage).map(this.returnResults)}</Row>
         </div>
 

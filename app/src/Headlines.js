@@ -1,37 +1,16 @@
 import {  InputGroup,  
   Input, 
   Alert,
-  Card, 
-  CardImg, 
-  CardText, 
-  CardBody,
-  CardFooter,
   Button, 
-  Row, 
-  Col } from 'reactstrap';
+  Row} from 'reactstrap';
 import React, { Component } from 'react';
+import NewsCard from './NewsCard.js';
 import './App.css';
 import $ from 'jquery';
 
 var apiKey = "d418a65c0c38453da8d0ee0eae5467e0";
+var headlines_url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=';
 
-function NewsCard(props){
-  return (
-    <Col xs="6" sm="4">
-      <a href={props.link}>
-        <Card className="card-gallery">
-          <div className="text-block">{props.source}</div>
-          <CardImg className="gallery-img" top width="100%" src={props.image} alt="Card image cap" />
-           <CardFooter className="card-date">{props.date.slice(0, 10)}</CardFooter>
-          <CardBody className="card-body">
-            <CardText className="card-text">{props.headline} </CardText>
-          </CardBody>
-         
-        </Card>
-      </a>
-    </Col>
-  );
-};
 
 class Headlines extends Component {
 
@@ -47,6 +26,7 @@ class Headlines extends Component {
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.returnSearch = this.returnSearch.bind(this);
     this.follow = this.follow.bind(this);
+    this.getCategoryData = this.getCategoryData.bind(this);
   }
 
   toggleVisible() {
@@ -124,11 +104,13 @@ class Headlines extends Component {
 
   }
 
+  getCategoryData(e, category){
+    this.getData(headlines_url + apiKey + '&category=' + category);
+  }
+
   componentDidMount() {
-    let headlines_url = 'https://newsapi.org/v2/top-headlines?' +
-          'country=us&' +
-          'apiKey=' + apiKey;
-    this.getData(headlines_url);
+    let url =  headlines_url + apiKey;
+    this.getData(url);
   }
 
 
@@ -146,6 +128,15 @@ class Headlines extends Component {
             <Button className="search-button" color="secondary" onClick={this.returnSearch}>Search</Button>
             <Button outline color="secondary" onClick={(event) => {this.toggleVisible(); this.follow();}}>Follow</Button>
           </InputGroup>
+          <div >
+            <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "general")} >General</Button>
+            <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "business")}>Business</Button>
+            <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "entertainment")}>Entertainment</Button>
+            <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "health")}>Health</Button>
+            <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "science")}>Science</Button>
+            <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "sports")}>Sports</Button>
+            <Button className="category-btns" color="link" onClick={(e) => this.getCategoryData(e, "technology")}>Technology</Button>
+          </div>
           <Row>{this.state.displayed_news.filter(this.hasImage).map(this.extractInfo)}</Row>
         </div>
 

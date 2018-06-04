@@ -15,8 +15,6 @@ import {
   } from 'reactstrap';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 var Infinite = require('react-infinite');
-var apiKey = "d418a65c0c38453da8d0ee0eae5467e0";
-
 
 class App extends Component {
   constructor(props) {
