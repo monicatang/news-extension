@@ -8,7 +8,7 @@ import NewsCard from './NewsCard.js';
 import './App.css';
 import $ from 'jquery';
 
-var apiKey = "d418a65c0c38453da8d0ee0eae5467e0";
+var apiKey = `${process.env.REACT_APP_API_KEY}`;
 var headlines_url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=';
 
 class Headlines extends Component {

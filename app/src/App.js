@@ -35,11 +35,12 @@ class App extends Component {
   render() {
     let page = null;
     switch (this.state.page) {
-    case 'Headlines':
-      page = <Headlines />;
-      break
     case 'Following':
       page = <Following />;
+      break
+    case 'Headlines':
+    default:
+      page = <Headlines />;
       break
   }
       return (
