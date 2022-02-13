@@ -4,7 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "ajv": "^6.12.2",
+    "ajv": "^6.12.3",
     "bootstrap": "^4.5.0",
     "dotenv": "^8.2.0",
     "jquery": "^3.5.1",
